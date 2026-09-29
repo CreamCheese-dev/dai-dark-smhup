@@ -19,7 +19,8 @@ function _init()
 	score=0
 	lives=3
 	bombs=4
-		
+	-- background star pos
+	gen_star_pos()
 end
 
 function _update()
@@ -31,7 +32,7 @@ function _update()
 	buly=buly-bspeed
 	
 -- score
-	score+=500
+	score=flr(rnd(128))
 	
 -- flame animate
 	flame=flame+1
@@ -102,6 +103,8 @@ end
 
 function _draw()
 	cls()
+	starfield()
+
 	-- draw ship
 	spr(spr_id,xpos,ypos)
 	spr(flame,xpos, ypos+8)
@@ -137,6 +140,28 @@ function _draw()
 	print(bombs,50,50)
 	end
 end
+
+function starfield()
+	for i=1,#star_x do
+		pset(star_x[i], star_y[i], rnd(16))
+		star_y[i]+=1
+
+		if star_y[i] >= 128 then
+			star_y[i]=0
+		end
+
+	end	
+end
+
+function gen_star_pos()
+	star_x={}
+	star_y={}
+	for i=1, 100 do
+		add(star_x, rnd(128))
+		add(star_y, rnd(128))
+	end
+end
+
 __gfx__
 00000000000220000002200000022000000000000000000000000000000000000000000000000000000000000000099000000000000000000000000000000000
 000000000028820000288200002882000007700000077000000770000a7777a00007700008800880088008800011179000111100000000000000000000000000
