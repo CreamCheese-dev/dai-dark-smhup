@@ -14,7 +14,8 @@ function _init()
 	-- bullet
 	bulletspr=16
 	buly=-10
-	bspeed=2
+	bspeed=3
+	bullet_arr={}
 	--ui
 	score=0
 	lives=3
@@ -72,13 +73,7 @@ function _update()
 		spr_id=3
 	end
 -- fire bullet
-	if btnp(❎) then
-		bulx=xpos
-		buly=ypos-7
-		muzzle=5
-		bulletspr=16
-		sfx(0)
-	end
+	fire_bullets()
 
 -- bomb
 	if btnp(🅾️) then
@@ -105,12 +100,15 @@ function _draw()
 	cls()
 	starfield()
 
+	for i=1, #bullet_arr do
+		spr(bulletspr,xpos,buly)
+	end
+
 	-- draw ship
 	spr(spr_id,xpos,ypos)
 	spr(flame,xpos, ypos+8)
 	print("dai dark",53,33,rnd(16))
-	spr(bulletspr,xpos,buly)
-	
+
 	if muzzle>0 then
 		circfill(xpos+3,ypos-2,muzzle,7)
 	end
@@ -137,14 +135,22 @@ function _draw()
 		else
 			spr(12,i*9+85)
 		end
-	print(bombs,50,50)
+	print(#bullet_arr,50,50)
 	end
 end
 
 function starfield()
 	for i=1,#star_x do
-		pset(star_x[i], star_y[i], rnd(16))
-		star_y[i]+=1
+		local scol = 6
+
+		if star_spd[i] < 1 then
+			scol = 1
+		elseif star_spd[i] >= 1.5 then
+			scol = rnd(16)
+		end
+
+		pset(star_x[i], star_y[i], scol)
+		star_y[i]+=star_spd[i]
 
 		if star_y[i] >= 128 then
 			star_y[i]=0
@@ -156,9 +162,25 @@ end
 function gen_star_pos()
 	star_x={}
 	star_y={}
+	star_spd={}
 	for i=1, 100 do
 		add(star_x, rnd(128))
 		add(star_y, rnd(128))
+		add(star_spd, rnd(1.5)+0.5)
+	end
+end
+
+function fire_bullets()
+	if btnp(❎) then
+	bulx=xpos
+	buly=ypos-7
+	muzzle=5			
+	bulletspr=16
+	bullet_sfx=sfx(0)
+	
+	for v in all ({bulx, buly, muzzle, bulletspr, bullet_sfx}) do
+		add(bullet_arr, v)
+	end
 	end
 end
 
