@@ -1,9 +1,42 @@
 pico-8 cartridge // http://www.pico-8.com
 version 43
 __lua__
+
+#include update.lua
+#include draw.lua
+
 function _init()
 	-- clear screen
 	cls(0)
+	mode="start"
+end
+
+function draw_start()
+	cls(1)
+	print("dai dark",50,33,rnd(16))
+	print("press any key to begin",23,53,rnd(16))
+end
+
+function _update()
+	if mode == "game" then
+		update_game()
+	elseif mode == "start" then
+		update_start()
+	end
+	
+end
+
+
+function _draw()
+	if mode == "game" then
+		draw_game()
+	elseif mode == "start" then
+		draw_start()
+	end
+end
+
+function start_game()
+	mode="game"
 	-- ship pos
 	xpos=63
 	ypos=63
@@ -15,7 +48,6 @@ function _init()
 	bulletspr=16
 	buly=-10
 	bspeed=3
-	bullet_arr={}
 	--ui
 	score=0
 	lives=3
@@ -24,118 +56,14 @@ function _init()
 	gen_star_pos()
 end
 
-function _update()
-
--- defaults
-	spr_id=1
-	spr(spr_id,xpos, ypos+7)
-
-	buly=buly-bspeed
-	
--- score
-	score=flr(rnd(128))
-	
--- flame animate
-	flame=flame+1
-	if flame >= 8 then
-		flame=4
-	end
-	
--- muzzle animate
-	if muzzle > 0 then
-		muzzle=muzzle-2
-	end
-	
--- bullet animate
-	bulletspr=bulletspr+1
-	if bulletspr==24 then
-		bulletspr=16
-	end
-
--- bomb animate
-	if bombs > 0 then
-	
-	end
-	
--- controls
-	if btn(⬆️) then
-		ypos-=2
-	end
-	if btn(⬇️) then
-		ypos+=2
-	end
-	if btn(⬅️) then
-		xpos-=2
-		spr_id=2
-	end
-	if btn(➡️) then
-		xpos+=2
-		spr_id=3
-	end
--- fire bullet
-	fire_bullets()
-
--- bomb
-	if btnp(🅾️) then
-		bombs=bombs-1
-	end
-	
--- border check
-	if xpos > 120 then
-		xpos=120
-	end
-	if xpos < 0 then
-		xpos=0
-	end
-	if ypos > 120 then
-		ypos=120
-	end
-	if ypos < 0 then
-		ypos=0
-	end
-
-end
-
-function _draw()
-	cls()
-	starfield()
-
-	for i=1, #bullet_arr do
-		spr(bulletspr,xpos,buly)
-	end
-
-	-- draw ship
-	spr(spr_id,xpos,ypos)
-	spr(flame,xpos, ypos+8)
-	print("dai dark",53,33,rnd(16))
-
-	if muzzle>0 then
-		circfill(xpos+3,ypos-2,muzzle,7)
-	end
-	
-	--using a bomb
-	if btnp(🅾️) and bombs>0 then
-		circfill(xpos,ypos,bombs+68,rnd(16))
-	end
-	
-	--hearts ui
-	for i=1,4 do
-		if lives >= i then
-		spr(9,i*9,1)
-		else
-				spr(10,i*9,1)		
-		end
-	end
-	print("score:"..score,51,1)
-	
-	--bomb ui
-	for i=1,4 do
-		if bombs >= i then
-		spr(11,i*9+85)
-		else
-			spr(12,i*9+85)
-		end
-	print(#bullet_arr,50,50)
+function gen_star_pos()
+	star_x={}
+	star_y={}
+	star_spd={}
+	for i=1, 100 do
+		add(star_x, rnd(128))
+		add(star_y, rnd(128))
+		add(star_spd, rnd(1.5)+0.5)
 	end
 end
 
@@ -158,32 +86,6 @@ function starfield()
 
 	end	
 end
-
-function gen_star_pos()
-	star_x={}
-	star_y={}
-	star_spd={}
-	for i=1, 100 do
-		add(star_x, rnd(128))
-		add(star_y, rnd(128))
-		add(star_spd, rnd(1.5)+0.5)
-	end
-end
-
-function fire_bullets()
-	if btnp(❎) then
-	bulx=xpos
-	buly=ypos-7
-	muzzle=5			
-	bulletspr=16
-	bullet_sfx=sfx(0)
-	
-	for v in all ({bulx, buly, muzzle, bulletspr, bullet_sfx}) do
-		add(bullet_arr, v)
-	end
-	end
-end
-
 __gfx__
 00000000000220000002200000022000000000000000000000000000000000000000000000000000000000000000099000000000000000000000000000000000
 000000000028820000288200002882000007700000077000000770000a7777a00007700008800880088008800011179000111100000000000000000000000000
