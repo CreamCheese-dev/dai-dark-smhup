@@ -11,17 +11,13 @@ function _init()
 	mode="start"
 end
 
-function draw_start()
-	cls(1)
-	print("dai dark",50,33,rnd(16))
-	print("press any key to begin",23,53,rnd(16))
-end
-
 function _update()
 	if mode == "game" then
 		update_game()
 	elseif mode == "start" then
 		update_start()
+	elseif mode == "over" then
+		draw_over()
 	end
 	
 end
@@ -32,6 +28,8 @@ function _draw()
 		draw_game()
 	elseif mode == "start" then
 		draw_start()
+	elseif mode == "over" then
+		draw_over()
 	end
 end
 

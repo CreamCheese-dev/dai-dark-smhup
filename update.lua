@@ -73,7 +73,14 @@ function update_game()
 end
 
 function update_start()
-    if btnp(4) then
+    if btnp(4) or btnp(5) then
         start_game()
     end
+end
+
+function update_over()
+    if btnp(4) or btnp(5) then
+        mode = "start"
+    end
+
 end

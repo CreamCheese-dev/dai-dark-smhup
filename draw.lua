@@ -33,6 +33,17 @@ function draw_game()
 		else
 			spr(12,i*9+85)
 		end
-	print(#bullet_arr,50,50)
 	end
+end
+
+function draw_start()
+	cls(1)
+	print("dai dark",50,33,rnd(16))
+	print("press any key to begin",23,53,rnd(16))
+end
+
+function draw_over()
+    cls(1)
+	print("game over",50,33,rnd(16))
+	print("press any key to start again",11,53,rnd(16))
 end
