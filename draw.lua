@@ -39,11 +39,30 @@ end
 function draw_start()
 	cls(1)
 	print("dai dark",50,33,rnd(16))
-	print("press any key to begin",23,53,rnd(16))
+	print("press any key to begin",23,53,blink())
 end
 
 function draw_over()
     cls(1)
 	print("game over",50,33,rnd(16))
 	print("press any key to start again",11,53,rnd(16))
+end
+
+function draw_splash()
+    cls()
+    print("A kabojima productions",20,33)
+
+    -- place holder when making unique splash scrn
+    gen_star_pos()
+    starfield()
+end
+
+function blink()
+    local blink_arr = {5,5,6,6,7,7,6,6,5,5}
+
+    if blink_t>#blink_arr then
+        blink_t=1
+    end
+
+    return blink_arr[blink_t]
 end

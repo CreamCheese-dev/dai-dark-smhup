@@ -73,6 +73,8 @@ function update_game()
 end
 
 function update_start()
+    -- blink timer
+    blink_t=blink_t+1
     if btnp(4) or btnp(5) then
         start_game()
     end
@@ -80,6 +82,16 @@ end
 
 function update_over()
     if btnp(4) or btnp(5) then
+        mode = "start"
+    end
+
+end
+
+function update_splash()
+    -- splash timer
+    splash_t+=1
+
+    if splash_t == 100 then
         mode = "start"
     end
 

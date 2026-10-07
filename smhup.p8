@@ -8,7 +8,9 @@ __lua__
 function _init()
 	-- clear screen
 	cls(0)
-	mode="start"
+	mode="splash"
+	blink_t = 0
+	splash_t = 0
 end
 
 function _update()
@@ -18,6 +20,8 @@ function _update()
 		update_start()
 	elseif mode == "over" then
 		draw_over()
+	elseif mode == "splash" then
+		update_splash()
 	end
 	
 end
@@ -30,6 +34,8 @@ function _draw()
 		draw_start()
 	elseif mode == "over" then
 		draw_over()
+	elseif mode == "splash" then
+		draw_splash()
 	end
 end
 
