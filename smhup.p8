@@ -8,6 +8,7 @@ __lua__
 function _init()
 	-- clear screen
 	cls(0)
+	starfield()
 	mode="splash"
 	blink_t = 0
 	splash_t = 0
@@ -56,40 +57,9 @@ function start_game()
 	score=0
 	lives=3
 	bombs=4
-	-- background star pos
-	gen_star_pos()
 end
 
-function gen_star_pos()
-	star_x={}
-	star_y={}
-	star_spd={}
-	for i=1, 100 do
-		add(star_x, rnd(128))
-		add(star_y, rnd(128))
-		add(star_spd, rnd(1.5)+0.5)
-	end
-end
 
-function starfield()
-	for i=1,#star_x do
-		local scol = 6
-
-		if star_spd[i] < 1 then
-			scol = 1
-		elseif star_spd[i] >= 1.5 then
-			scol = rnd(16)
-		end
-
-		pset(star_x[i], star_y[i], scol)
-		star_y[i]+=star_spd[i]
-
-		if star_y[i] >= 128 then
-			star_y[i]=0
-		end
-
-	end	
-end
 __gfx__
 00000000000220000002200000022000000000000000000000000000000000000000000000000000000000000000099000000000000000000000000000000000
 000000000028820000288200002882000007700000077000000770000a7777a00007700008800880088008800011179000111100000000000000000000000000

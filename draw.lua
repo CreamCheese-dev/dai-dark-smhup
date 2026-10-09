@@ -1,6 +1,7 @@
 function draw_game()
-	cls()
-	starfield()
+    cls()
+
+	animate_stars()
 
 	-- draw ship
 	spr(spr_id,xpos,ypos)
@@ -50,11 +51,46 @@ end
 
 function draw_splash()
     cls()
-    print("A kabojima productions",20,33)
+    print("A kabojima productions",20,33, rnd(16))
 
     -- place holder when making unique splash scrn
-    gen_star_pos()
-    starfield()
+    animate_stars()
+end
+
+function starfield()
+	stars = {}
+	for i=1,100 do
+		-- create star obj
+		local newstar = {}
+		newstar.x=rnd(128)
+		newstar.y=rnd(128)
+		newstar.spd=rnd(1.5)+0.5
+		-- add star to arr
+		add(stars, newstar)
+	end
+end
+
+function animate_stars()
+    for i=1, #stars do
+    local mystar = stars[i]
+    local scol = 6
+
+    -- assign color
+    if mystar.spd < 1 then
+        scol = 1
+    elseif mystar.spd >= 1.5 then
+        scol = rnd(16)
+    end
+
+    -- return star exceeding 128
+    if mystar.y > 128 then
+        mystar.y = mystar.y - 128
+    end
+
+    -- draws star vert
+    pset(stars[i].x, stars[i].y, scol)
+    mystar.y = mystar.y + mystar.spd
+    end
 end
 
 function blink()

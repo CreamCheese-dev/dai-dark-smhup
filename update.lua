@@ -1,5 +1,4 @@
 function update_game()
-
 -- defaults
 	spr_id=1
 	spr(spr_id,xpos, ypos+7)
