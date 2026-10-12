@@ -6,12 +6,18 @@ function draw_game()
 	-- draw ship
 	spr(spr_id,xpos,ypos)
 	spr(flame,xpos, ypos+8)
-    spr(bulletspr,xpos,buly)
 
-	if muzzle>0 then
-		circfill(xpos+3,ypos-2,muzzle,7)
-	end
-	
+    -- draw bullets & muzzle flash
+    for i=1,#buls do
+        local mybul=buls[i]
+
+        spr(mybul.spr,mybul.x,mybul.y)
+
+        if mybul.muzzle>0 then
+		    circfill(xpos+3,ypos-2,mybul.muzzle,7)
+	    end
+    end
+
 	--using a bomb
 	if btnp(🅾️) and bombs>0 then
 		circfill(xpos,ypos,bombs+68,rnd(16))
@@ -102,3 +108,8 @@ function blink()
 
     return blink_arr[blink_t]
 end
+
+function draw_bullets()
+
+end
+buls = {}

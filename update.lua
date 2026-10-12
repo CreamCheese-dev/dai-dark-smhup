@@ -3,7 +3,14 @@ function update_game()
 	spr_id=1
 	spr(spr_id,xpos, ypos+7)
 
-	buly=buly-bspeed
+    for i=#buls,1,-1 do
+        local mybul = buls[i]
+        mybul.y = mybul.y - bspeed
+
+        if mybul.y<-8 then
+            del(buls, mybul)
+        end
+    end
 	
 -- score
 	score=flr(rnd(128))
@@ -15,22 +22,43 @@ function update_game()
 	end
 	
 -- muzzle animate
-	if muzzle > 0 then
-		muzzle=muzzle-2
+    for i=1,#buls do
+        local mybul = buls[i]
+
+	    if mybul.muzzle > 0 then
+            -- randomize muzzle flash
+		    mybul.muzzle=mybul.muzzle-rnd(2)
+        end
 	end
 	
 -- bullet animate
-	bulletspr=bulletspr+1
-	if bulletspr==24 then
-		bulletspr=16
-	end
+    for i=1,#buls do
+        local mybul = buls[i]
+
+        -- cycle thru sprites
+        mybul.spr=mybul.spr+1
+        if mybul.spr==24 then
+            mybul.spr=16
+        end
+        
+    end
+
+	-- bulletspr=bulletspr+1
+	-- if bulletspr==24 then
+	-- 	bulletspr=16
+	-- end
 
 -- fire bullets
     if btnp(❎) then
-	    bulx=xpos
-	    buly=ypos-7
-	    muzzle=5			
-	    bulletspr=16
+
+        local newbul = {}
+        newbul.x=xpos
+        newbul.y=ypos - 7
+        newbul.muzzle=5
+        newbul.spr=16
+        add(buls, newbul)
+
+	    -- muzzle=5			
 	    bullet_sfx=sfx(0)
     end
 	
