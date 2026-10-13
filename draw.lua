@@ -18,6 +18,10 @@ function draw_game()
 	    end
     end
 
+    -- enemies
+    create_enemies()
+    draw_enemies()
+
 	--using a bomb
 	if btnp(🅾️) and bombs>0 then
 		circfill(xpos,ypos,bombs+68,rnd(16))
@@ -109,7 +113,27 @@ function blink()
     return blink_arr[blink_t]
 end
 
-function draw_bullets()
+function create_enemies()
+    enemies = {}
+
+    local my_enemy = {}
+    my_enemy.x = 60
+    my_enemy.y = 5
+    my_enemy.spr = 32
+
+    add(enemies, my_enemy)
 
 end
+
+function draw_enemies()
+
+    for i = 1,#enemies do
+        local my_enemy = enemies[i]
+
+        spr(my_enemy.spr,my_enemy.x, my_enemy.y)
+
+    end
+
+end
+
 buls = {}

@@ -43,10 +43,8 @@ function update_game()
         
     end
 
-	-- bulletspr=bulletspr+1
-	-- if bulletspr==24 then
-	-- 	bulletspr=16
-	-- end
+-- enemy animate
+    update_enemies()
 
 -- fire bullets
     if btnp(❎) then
@@ -99,6 +97,7 @@ function update_game()
 
 end
 
+-- Menu -- 
 function update_start()
     -- blink timer
     blink_t=blink_t+1
@@ -121,5 +120,16 @@ function update_splash()
     if splash_t == 100 then
         mode = "start"
     end
+end
 
+-- Game elements -- 
+
+function update_enemies()
+    for i=1,#enemies do
+        local my_enemy = enemies[i]
+        my_enemy.spr=my_enemy.spr + 1
+        if my_enemy.spr == 34 then
+            my_enemy.spr = 32
+        end
+    end
 end
